@@ -1,11 +1,11 @@
 import os
 import datetime
 
-def catat_transaksi(nama_file, transaksi):
+def catat_transaksi(nama_file, transaksi, besar_uang):
     with open(nama_file, 'a') as file:
         waktu_sekarang = datetime.datetime.now()
         waktu_format = waktu_sekarang.strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{waktu_format} - {transaksi}\n")
+        file.write(f"{waktu_format} - {transaksi} - {besar_uang}\n")
     print("Transaksi berhasil dicatat.")
 
 def tampilkan_catatan(nama_file):
@@ -18,7 +18,11 @@ def tampilkan_catatan(nama_file):
         print("File catatan keuangan tidak ditemukan. Belum ada transaksi.")
 
 def main():
-    nama_file = "catatan_keuangan.txt"
+    folder_output = "hasil_output"
+    if not os.path.exists(folder_output):
+        os.makedirs(folder_output)
+
+    nama_file = os.path.join(folder_output, "catatan_keuangan.txt")
 
     while True:
         print("\n=== Aplikasi Pencatatan Keuangan ===")
@@ -30,7 +34,8 @@ def main():
 
         if pilihan == '1':
             transaksi = input("Masukkan deskripsi transaksi: ")
-            catat_transaksi(nama_file, transaksi)
+            besar_uang = input("Masukkan besar transaksi: ")
+            catat_transaksi(nama_file, transaksi, besar_uang)
         elif pilihan == '2':
             tampilkan_catatan(nama_file)
         elif pilihan == '3':
